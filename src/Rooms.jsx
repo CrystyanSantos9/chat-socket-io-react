@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import {
   Routes,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
 import Room from "./Room";
 import SelectRoom from "./SelectRoom";
@@ -15,7 +15,7 @@ class Rooms extends Component {
     super(props);
     const token = window.localStorage.getItem("token");
     const socket = io("http://192.168.1.110:3001?token=" + token);
-
+  
     this.state = {
       rooms: [],
       msgs: {},
@@ -87,9 +87,12 @@ class Rooms extends Component {
         
           <div className="add-room">+</div>
         </div>
-    
+            
+        <Routes>
           <Route exact path="/" element={<SelectRoom/>} />
-          <Route path="/:room" element={<Room state={this.state} />} />
+          <Route path="/:room" element={<Room state={this.state} />} /> 
+        </Routes>    
+        
       </div>
     );
   }

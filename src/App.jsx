@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+
 import {
   Routes,
   Route,
@@ -11,14 +12,21 @@ import {
 // pages
 import Login from "./Login";
 import Rooms from "./Rooms";
-
+const RouteNotFound = (props)=>{
+  return (
+    <div>
+      <h1>Página não encontrada 404</h1>
+    </div>
+  )
+}
 class App extends Component {
   render() {
     return (
       <div>
-        < Routes >
-          <Route path="/" exact element={<Login />} />
-          <Route path="/rooms" element={<Rooms />} />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/rooms/*" element={<Rooms />} />
+          <Route path="*" element={<RouteNotFound />} />
         </Routes >
       </div>
     )
