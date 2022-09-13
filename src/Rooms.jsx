@@ -15,7 +15,8 @@ class Rooms extends Component {
     super(props);
     const token = window.localStorage.getItem("token");
     const socket = io("http://192.168.1.110:3001?token=" + token);
-  
+   
+
     this.state = {
       rooms: [],
       msgs: {},
@@ -61,8 +62,10 @@ class Rooms extends Component {
     socket.on("roomList", (rooms) => {
       this.setState({ rooms: rooms });
     });
-  }
 
+    this.socket = socket
+  }
+    
   render() {
     return (
       <div className="container w-container">
@@ -74,7 +77,7 @@ class Rooms extends Component {
             this.state.rooms.map(room=>{
               return (
               <li key={room._id} className="room-item">
-              <Link to={`/rooms/${room._id}`}>{room.name}</Link>
+                <Link to={`/rooms/${room._id}`}>{room.name}</Link>
               </li>
               )
             })
@@ -90,7 +93,7 @@ class Rooms extends Component {
             
         <Routes>
           <Route exact path="/" element={<SelectRoom/>} />
-          <Route path="/:room" element={<Room state={this.state} />} /> 
+          <Route path="/:room" element={<Room socket={this.socket}/>} /> 
         </Routes>    
         
       </div>
