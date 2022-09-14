@@ -19,24 +19,33 @@ class Rooms extends Component {
 
     this.state = {
       rooms: [],
-      msgs: {},
+      msgs: [],
     };
 
     //Eventos socket.io
 
     socket.on("newMsg", (msg) => {
-      // if (selectedRomm === msg.room) {
-      //   addMsg(msg)
-      // } else {
-      //   // atualizar contador de msgs não lidas
-      //   const id = msg.room
-      //   //uso span para peagr o valor dento do span dentro da classe
-      //   //usamos text para pegar e alterar o valor do elemento html e não value
-      //   let count = parseInt($('#'+id+' .notifications span').text())
-      //   //adiciona mais mensagem não lida
-      //   count+=1
-      //   $('#'+id+' .notifications span').text(count)
-      // }
+      // se mensagem nao existe 
+      if(!this.state.msgs[msg.room]){
+        //pegamos tudo o que já existe no estado atual
+        // manter o estado original imutável criando um novo objeto
+        const msgs = {...this.state.msgs}
+        //criando um posição dentro do novo estado para  mensagem nova e única
+        // a posicao é o id da room, logo todas as mensagens ficarão associadas a room
+        msgs[msg.room] = [msg]
+        this.setState({
+          msgs: msgs
+        })
+      }else{
+        //se a mensagem já existe
+        // copiamos tudo que está no estado original
+        const msgs = {...this.state.msgs}
+        //e só adicionamos dentro no objeto de room
+        msgs[msg.room].push(msg) 
+        this.setState({
+          msgs: msgs
+        })
+      }
     });
 
     //recebe mensagem enviada e mostra na sala para todos
@@ -62,6 +71,8 @@ class Rooms extends Component {
     socket.on("roomList", (rooms) => {
       this.setState({ rooms: rooms });
     });
+
+    
 
     this.socket = socket
   }
@@ -93,7 +104,7 @@ class Rooms extends Component {
             
         <Routes>
           <Route exact path="/" element={<SelectRoom/>} />
-          <Route path="/:room" element={<Room socket={this.socket}/>} /> 
+          <Route path="/:room" element={<Room errors={this.state.errors} socket={this.socket} msgs={this.state.msgs} />} /> 
         </Routes>    
         
       </div>
