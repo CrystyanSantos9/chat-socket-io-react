@@ -59,8 +59,20 @@ class Rooms extends Component {
 
     //recebe mensagens quando clicar nas salas
     socket.on("msgsList", (msgs) => {
-      // $('.messages').html('') //limpamos a tela
-      // msgs.map(addMsg) //para cada mensagem presente no array, enviamos ela para a função template
+      
+      if(msgs.length > 0){
+        // copiamos tudo o que está no estado mensagens
+        const msgsTmp = {...this.state.msgs}
+        
+        // selecionamos a sala e carregamos as mensagens nela
+        msgsTmp[msgs[0].room] = msgs
+        const lista = msgsTmp[msgs[0].room].map(msg => msg.type)
+        console.log(lista)
+        this.setState({
+          //alterando o estado de msgs para as que estamos carregando do banco 
+          msgs: msgsTmp
+        })
+      }
     });
 
     // evento para escutar a criação de nova sala

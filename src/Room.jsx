@@ -1,13 +1,11 @@
 import React from "react";
 import { useEffect, useCallback } from "react";
 import { useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./chatsocket-io.webflow.css";
 
 const Room = (props) => {
   let params = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [roomId, setRoomId] = useState("");
   const [errors, setErros] = useState("");
 
@@ -59,22 +57,37 @@ const Room = (props) => {
     }
   }
 
+  function renderContent(msg){
+    // se o conteudo for texto 
+    // recebe o objo msg { com prop type para derminar a renderizacao }
+    console.log(msg)
+    if(msg.type === 'text'){
+      return msg.message
+    }else{
+      return <audio audio={msg.message} controls="true"></audio>
+    }
+  }
+  // lidando com diferentes tipos de dado
+  function renderMessage(msg){
+      return(
+        <div key={msg._id}className="message">
+          <span className="author">{msg.author} - {msg.when}</span>
+          <br />
+          {/* // colocamos a exibição do conteudo aqui / para lidar com o formato de saída */}
+          <span className="msg-body">{renderContent(msg)}</span>
+        </div>    
+      )
+  }
+
   return (
     <div className="room">
       {errorHandling() && errors !== "" ? <h3>{errors}</h3> : ""}
       <div className="messages">
       <div className="message">
-        <span className="msg-body"> Estou na sala : {JSON.stringify(roomId)}</span>
+        <span className="msg-body"> Estou na sala : {JSON.stringify(roomId)} </span>
+       {console.log(Object.values(props.msgs))}
       </div>
-      {/* Primeiro verifica se o objeto existe */}
-      {/* depois faz um map em todas as mensagens já existens nesse objeto */}
-      {props.msgs[roomId] && props.msgs[roomId].map((msg) => (
-              <div key={msg._id}className="message">
-                <span className="author">{msg.author} - {msg.when}</span>
-                <br />
-                <span className="msg-body">{msg.message}</span>
-              </div>    
-        ))}
+     
         </div>
       <div className="new-message-form w-form">
         <form>
