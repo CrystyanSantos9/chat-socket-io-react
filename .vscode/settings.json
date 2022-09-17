@@ -2,7 +2,7 @@
     "workbench.colorCustomizations": {
         "activityBar.activeBorder": "#422c74",
         "window.zoomLevel": 1,
-        "prettier.configPath": "./.prettierrc.json",
+        "prettier.configPath": ".prettierrc.json",
         "typescript.tsdk": "node_modules/typescript/lib",
         "editor.formatOnSave": true,
         "editor.inlayHints.enabled": "on",
