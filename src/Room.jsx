@@ -63,19 +63,17 @@ const Room = (props) => {
 
   useEffect(() => {
     if (params) {
-      // ADICIONEI -- verifica ação no reload
-      // trata o reload de página
-      // roomId = '' vazio pega o id do histórico do router dom
       if (roomId === '') {
         const initialRoomId = params.room
         setRoomId(initialRoomId)
+        props.setRoom(initialRoomId)
         props.socket.emit('join', initialRoomId)
       }
 
-      // trata a mudança de pagina
       if (params.room !== roomId && roomId !== '') {
         const newRoomId = params.room
         setRoomId(newRoomId)
+        props.setRoom(newRoomId)
         props.socket.emit('join', newRoomId)
       }
     }
@@ -95,7 +93,7 @@ const Room = (props) => {
     if (roomId !== '' && event.keyCode === 13) {
       props.socket.emit('sendMsg', {
         msg: event.target.value,
-        room: roomId
+        room: roomId,
       })
       //limpa tela depois de enviar
       event.target.value = ''

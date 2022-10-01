@@ -189,12 +189,42 @@
 
 .add-room {
   position: absolute;
+  width: 250px;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   right: 0px;
   bottom: 0px;
-  width: 50px;
+  width: 250px;
   height: 50px;
-  padding-top: 15px;
   font-size: 40px;
   font-weight: 700;
   text-align: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.add-room-message {
+  position: absolute;
+  width: 150px;
+  opacity: 0;
+  font-size: 8px;
+  font-weight: 700;
+  text-align: center;
+  z-index: 1000;
+  transition: transform 0.5s;
+}
+
+.show {
+  background-color: chartreuse;
+  border-radius: 20px;
+  transform: skewX(-0.06turn);
+  margin-right: 100px;
+  transition: opacity 0.5s;
+  opacity: 1;
 }
